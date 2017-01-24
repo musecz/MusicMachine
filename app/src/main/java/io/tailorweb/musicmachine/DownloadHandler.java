@@ -4,15 +4,16 @@ import android.os.Message;
 import android.util.Log;
 
 import android.os.Handler;
-import java.util.logging.LogRecord;
 
 
 public class DownloadHandler extends Handler {
     private static final String TAG = DownloadHandler.class.getSimpleName();
+    private DownloadService mService;
 
     @Override
     public void handleMessage(Message msg) {
         downloadSong(msg.obj.toString());
+        mService.stopSelf(msg.arg1);
     }
 
     private void downloadSong(String song) {
@@ -27,7 +28,9 @@ public class DownloadHandler extends Handler {
             }
         }
         Log.d(TAG,song + "Song imported");
-
     }
 
+    public void setService(DownloadService service) {
+        mService = service;
+    }
 }
