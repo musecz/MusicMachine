@@ -1,21 +1,23 @@
 package io.tailorweb.musicmachine;
 
-import android.os.Message;
+import android.app.IntentService;
+import android.content.Intent;
 import android.util.Log;
 
-import android.os.Handler;
+public class DownloadIntentService extends IntentService {
+    private static final String TAG = DownloadIntentService.class.getSimpleName() ;
 
-
-public class DownloadHandler extends Handler {
-    private static final String TAG = DownloadHandler.class.getSimpleName();
-    private DownloadService mService;
-
-    @Override
-    public void handleMessage(Message msg) {
-        downloadSong(msg.obj.toString());
-        mService.stopSelf(msg.arg1);
+    public DownloadIntentService() {
+        super("DownloadIntentService");
+        // By default it's sticky
+        setIntentRedelivery(true);
     }
 
+    @Override
+    protected void onHandleIntent(Intent intent) {
+        String song = intent.getStringExtra(MainActivity.KEY_SONG);
+        downloadSong(song);
+    }
     private void downloadSong(String song) {
         // Adding 10 sec to the current time
         long endTime = System.currentTimeMillis() + 3 * 1000;
@@ -28,9 +30,5 @@ public class DownloadHandler extends Handler {
             }
         }
         Log.d(TAG,song + "Song imported");
-    }
-
-    public void setService(DownloadService service) {
-        mService = service;
     }
 }
