@@ -16,7 +16,7 @@ public class ActivityHandler extends Handler {
         if (msg.arg1 == 0) {
             // Music is not playing
             if (msg.arg2 == 1) {
-                mMainActivity.changePlayButtonText("Pause");
+                mMainActivity.changePlayButtonText("Play");
             } else {
                 // Play the music
                 Message message = Message.obtain();
